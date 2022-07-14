@@ -13,7 +13,7 @@
         <ul class="nav navbar-nav">
 
             <li class="nav-item">
-                <a class="nav-link" href="#">Develoteca</a>
+                <a class="nav-link" href="#">Bookstore</a>
             </li>
 
             <li class="nav-item">
@@ -26,6 +26,9 @@
 
             <li class="nav-item">
                 <a class="nav-link" href="nosotros.php">Nosotros</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-success" href="./admin/index.php">Login</a>
             </li>
         </ul>
     </nav>

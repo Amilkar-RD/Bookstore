@@ -1,3 +1,16 @@
+
+<?php
+  session_start();
+  if(!isset($_SESSION['usuario'])){
+    header("Location:../index.php");
+  }else{
+    if($_SESSION['usuario']=="ok"){
+      $nombreUsuario = $_SESSION['nombreUsuario'];
+    }
+  }
+
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -13,11 +26,11 @@
 
 <nav class="navbar navbar-expand navbar-light bg-light">
     <div class="nav navbar-nav">
-        <a class="nav-item nav-link active" href="#">Administrador <span class="sr-only">(current)</span></a>
+        <a class="nav-item nav-link active" href="#">Administrador del sitio web<span class="sr-only"></span></a>
         <a class="nav-item nav-link" href="<?php echo $url; ?>/admin/inicio.php">Inicio</a>
         <a class="nav-item nav-link" href="<?php echo $url; ?>/admin/seccion/productos.php">Libros</a>
-        <a class="nav-item nav-link" href="<?php echo $url; ?>/admin/seccion/cerrar.php">Cerrar</a>
         <a class="nav-item nav-link" href=" <?php echo $url;?> ">Ver sitio web</a>
+        <a class="nav-item nav-link text-danger" href="<?php echo $url; ?>/admin/seccion/cerrar.php">Cerrar</a>
     </div>
 </nav>
 

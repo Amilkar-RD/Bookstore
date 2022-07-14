@@ -26,6 +26,8 @@ switch ($accion) {
         $sentenciaSQL->bindParam('imagen', $nombreArchivo);
         $sentenciaSQL->execute();
 
+        header("Location:productos.php");
+
         // echo "Presionado boton agregar";
         break;
     case "Modificar";
@@ -60,11 +62,14 @@ switch ($accion) {
             $sentenciaSQL->bindParam(':imagen', $nombreArchivo);
             $sentenciaSQL->bindParam(':id', $txtID);
             $sentenciaSQL->execute();
+
+            
         }
+            header("Location:productos.php");
         // echo "Presionado boton Modificar";
         break;
     case "Cancelar";
-        echo "Presionado boton cancelar";
+        header("Location:productos.php");
         break;
     case "Seleccionar";
         $sentenciaSQL = $conexion->prepare("SELECT * FROM libros WHERE id=:id");
@@ -94,6 +99,8 @@ switch ($accion) {
         $sentenciaSQL = $conexion->prepare("DELETE  FROM libros WHERE id=:id");
         $sentenciaSQL->bindParam(':id', $txtID);
         $sentenciaSQL->execute();
+
+        header("Location:productos.php");
         //echo "Presionado boton Borrar";
         break;
 }
@@ -118,7 +125,7 @@ $listaLibros = $sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
             <form method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="txtID">ID:</label>
-                    <input type="text" class="form-control" value="<?php echo $txtID; ?>" name="txtID" id="txtID" placeholder="ID">
+                    <input type="text" required readonly class="form-control" value="<?php echo $txtID; ?>" name="txtID" id="txtID" placeholder="ID">
                 </div>
 
                 <div class="form-group">
@@ -127,15 +134,21 @@ $listaLibros = $sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
                 </div>
 
                 <div class="form-group">
-                    <label for="txtImagen">Imagen:</label>
-                    <?php echo $txtImagen; ?>
-                    <input type="file" class="form-control" name="txtImagen" id="txtImagen" placeholder="Imagen">
+                    <label class="my-1" for="txtImagen">Imagen:</label>
+                    <br/>
+                    
+                    <?php
+                        if($txtImagen!=""){?>
+                        <img src="../../img/<?php echo $txtImagen ?>" width="70"  alt="" class="img-thumbnail rounded">
+                    <?php }?>
+
+                    <input type="file" class="form-control mt-2" name="txtImagen" id="txtImagen" placeholder="Imagen">
                 </div>
 
                 <div class="btn-group py-3 " role="group" aria-label="">
-                    <button type="submit" name="accion" value="Agregar" class="btn btn-success">Agregar</button>
-                    <button type="submit" name="accion" value="Modificar" class="btn btn-warning">Modificar</button>
-                    <button type="submit" name="accion" value="Cancelar" class="btn btn-info">Cancelar</button>
+                    <button type="submit" name="accion" <?php echo ($accion=="Seleccionar")?"disabled":""; ?> value="Agregar" class="btn btn-success">Agregar</button>
+                    <button type="submit" name="accion" <?php echo ($accion!="Seleccionar")?"disabled":""; ?> value="Modificar" class="btn btn-warning">Modificar</button>
+                    <button type="submit" name="accion" <?php echo ($accion!="Seleccionar")?"disabled":""; ?> value="Cancelar" class="btn btn-info">Cancelar</button>
                 </div>
             </form>
 
@@ -165,18 +178,17 @@ $listaLibros = $sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
 
                     <td class="d-flex justify-content-center">
                         
-                    <img src="../../img/<?php echo $libro['imagen'] ?>" width="50"  alt="">
+                    <img src="../../img/<?php echo $libro['imagen'] ?>" width="70"  alt="" class="img-thumbnail rounded"  alt="">
 
                     </td>
-
                     <td >
-                        <form method="post" class="d-flex justify-content-around">
+                        <form method="post" >
                             <input type="hidden" name="txtID" id="txtID" value="<?php echo $libro['id']; ?>" />
-
                             <input  type="submit" name="accion" value="Seleccionar" class="btn btn-success">
                             <input type="submit" name="accion" value="Borrar" class="btn btn-danger">
                         </form>
                     </td>
+                   
                 </tr>
             <?php
             } ?>
